@@ -1,24 +1,24 @@
-var express = require('express');
-var JsonEnv = require('./common/JsonEnv.js');
-var graph = require('./graph.json');
-var app = express();
-var serveStatic = require('serve-static')
-var staticAssets = new serveStatic(__dirname+"/web", { 'index': ['default.html', 'default.htm'] })
-
-var variablesFolder = __dirname+"/variables";
+const express = require('express');
+const JsonEnv = require('./common/JsonEnv.js');
+const graph = require('./graph.json');
+const app = express();
+const serveStatic = require('serve-static')
+const path = require('path');
+const staticAssets = new serveStatic(
+  path.join(process.env.npm_config_local_prefix, "web"), { 'index': ['default.html', 'default.htm'] })
 
 // set the port of our application
 var port = process.env.PORT || 2708;
 
 // set the view engine to ejs
 app.set('view engine', 'ejs');
-app.set('views',__dirname+"/web");
+app.set('views',path.join(process.env.npm_config_local_prefix, "web"));
 // use .html instead .ejs
 app.engine('html', require('ejs').renderFile);
 
 
 var jsonEnv = new JsonEnv();
-var pageVariables = jsonEnv.loadJsonFile(__dirname+"/variables/index.json");
+var pageVariables = jsonEnv.loadJsonFile(path.join(process.env.npm_config_local_prefix, "server", "settings.json"));
 
 /*Optional security*/
 if(process.env.ENABLE_SECURITY == "true"){
@@ -48,19 +48,14 @@ app.get('/graph.json', function(req, res, next) {
  */
 // set routes and assets
 app.get('*', function(req, res, next) {
-
-    if(req.url === "/"){
-      // render home page
+    console.log(req.path)
+    if(req.path === "/"){      
       res.render('index.html', pageVariables);
-    }else if(req.url.endsWith(".html")){
-      res.redirect("/");
     }else{
       return staticAssets(req, res, next);
     }
 
 });
-
-
 
 app.listen(port, function() {
     console.log('Our app is running on port: ' + port);

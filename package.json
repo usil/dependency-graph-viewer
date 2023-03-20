@@ -3,8 +3,8 @@
   "description": "gmap api test examples",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "supervisor -e 'ejs|js|css|js|html|json'  server.js",
+    "start": "node server/Index.js",
+    "dev": "supervisor -e 'ejs|js|css|js|html|json' server/Index.js",
     "build": "echo \"build\""
   },
   "dependencies": {
