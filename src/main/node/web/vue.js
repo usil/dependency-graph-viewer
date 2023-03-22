@@ -88,9 +88,13 @@ Vue.component('dependency-graph', {
   created() {
     // You can set the component width and height in any way
     // you prefer. It's responsive! :)
+    
     this.width = window.innerWidth - 30
-    this.height = window.innerHeight - 110
 
+    //all - (header height +  heightPadding)*K
+    var heightPadding = 32;
+    this.height = window.innerHeight - (heightPadding + document.getElementById("header").offsetHeight)*1.22
+    
     this.simulation = d3.forceSimulation()
       .force("link", d3.forceLink())
       .force("charge", d3.forceManyBody())

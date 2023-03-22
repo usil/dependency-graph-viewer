@@ -1,1 +1,8 @@
 node_modules
+coverage
+!/badges
+/badges/*
+!/badges/badge-lines.svg
+!/badges/badge-statements.svg
+!/badges/badge-branches.svg
+!/badges/badge-functions.svg

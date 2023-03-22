@@ -1,0 +1,4 @@
+{
+  "include": "src/main/node/server",
+  "all" : true
+}
